@@ -1,8 +1,7 @@
 # tennis_versus
 
-eventually, it will be tennis 1v1 against players possibly from different eras.
+training ML model using logistic regression and XGBoost to predict Wimbledon matches
 
-for now, it is training a ML model to predict Wimbledon 2026 matches...
+<hr>
 
-
-boom 
+eventually, it will probably be tennis 1v1 against players possibly from different eras and seeing how they matchup
