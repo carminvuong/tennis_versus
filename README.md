@@ -45,8 +45,6 @@ Endpoints:
 
 **`POST /predict`** — accepts `player_a`, `player_b`, and `surface`, looks up each player's stats, builds the feature vector, and returns a win probability using the model.
 
-**`GET /`** — returns status of `Online!` or `Offline...`.
-
 ```bash
 cd backend
 pip install -r requirements.txt

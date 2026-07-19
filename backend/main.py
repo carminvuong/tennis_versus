@@ -38,10 +38,6 @@ model = pickle.load(open(MODEL_PATH, "rb")) # rb - read binary, Halle / Queens b
 def all_players():
     return {"players" : sorted(players.index.tolist())} # a list of player names in alphabetical order 
 
-@app.get("/")
-def home():
-    return {"status" : "Online!"}
-
 class PredictionRequest(BaseModel): # data and type validation
     player_a: str
     player_b: str
