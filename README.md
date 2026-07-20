@@ -39,6 +39,8 @@ Both models performed below their typical accuracy due to a high number of upset
 
 ### Backend — FastAPI
 
+Deployed using Railway, can be found on [this GitHub repo](https://github.com/carminvuong/tennis_backend).
+
 Endpoints:
 
 **`GET /all_players`** — returns a sorted list of all player names in the lookup table, used to populate the frontend dropdowns.
