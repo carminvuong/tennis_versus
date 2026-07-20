@@ -21,6 +21,9 @@ export default function Home() {
   const [loading, setLoading]   = useState(false);
   const [error,   setError]     = useState('');
 
+  // animation for button
+  const [pressing, setPressing] = useState(false);
+
   const pct = (p: number) => `${(p * 100).toFixed(1)}%`;
 
   // Load player list on mount
@@ -114,10 +117,24 @@ export default function Home() {
       <button
         onClick={handlePredict}
         disabled={loading}
+        onMouseDown={() => setPressing(true)}
+        onMouseUp={() => setPressing(false)}
+        onMouseLeave={() => setPressing(false)}
         style={{
-          width: '100%', padding: 12, fontSize: 16,
-          background: '#2563eb', color: 'white',
-          border: 'none', borderRadius: 6, cursor: 'pointer'
+          width: '100%',
+          padding: 12,
+          fontSize: 16,
+          background: '#2563eb',
+          color: 'white',
+          border: 'none',
+          borderRadius: 6,
+          cursor: 'pointer',
+          transform: pressing ? 'scale(0.96)' : 'scale(1)',
+          transition: 'transform 0.1s ease, box-shadow 0.1s ease',
+          boxShadow: pressing
+            ? '0 1px 4px rgba(0,0,0,0.2)'
+            : '0 4px 12px rgba(37,99,235,0.4)',
+          opacity: loading ? 0.6 : 1,
         }}
       >
         {loading ? 'Predicting...' : 'Predict'}
