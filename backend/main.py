@@ -81,6 +81,6 @@ def predict(req: PredictionRequest):
         "player_a": req.player_a,
         "player_b": req.player_b,
         "surface": surface,
-        "player_a_proba": round(float(prob), 3),
-        "player_b_proba": round(float(1-prob), 3)
+        "prob_a": round(float(prob), 3),
+        "prob_b": round(float(1-prob), 3)
     }

@@ -59,7 +59,7 @@ Simple prediction interface with dropdowns for both players and surface selectio
 
 ```bash
 cd frontend
-npm install
+npm install # install requirements
 npm run dev
 # runs on http://localhost:3000
 ```
