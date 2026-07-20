@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const BACKEND_API = 'http://localhost:8000';
+const BACKEND_API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 type Result = {
   player_a: string;
