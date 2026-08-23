@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tennis Predictor",
+  title: "Tennis Versus",
 };
 
 export default function RootLayout({
