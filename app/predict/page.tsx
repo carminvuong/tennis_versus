@@ -64,6 +64,7 @@ export default function PredictPage() {
     setPlayer(name);
     setDate('');
     setRange(null);
+    setResult(null);
     if (!players.includes(name)) return;
     fetch(`${BACKEND_API}/player_career_range?player_name=${encodeURIComponent(name)}`)
       .then(res => res.ok ? res.json() : null)
@@ -148,7 +149,7 @@ export default function PredictPage() {
           value={dateA}
           min={rangeA.first_match_date}
           max={rangeA.last_match_date}
-          onChange={e => setDateA(e.target.value)}
+          onChange={e => { setDateA(e.target.value); setResult(null); }}
           style={{ width: '100%', padding: 8, marginBottom: 16, fontSize: 14, color: '#374151' }}
         />
       )}
@@ -170,7 +171,7 @@ export default function PredictPage() {
           value={dateB}
           min={rangeB.first_match_date}
           max={rangeB.last_match_date}
-          onChange={e => setDateB(e.target.value)}
+          onChange={e => { setDateB(e.target.value); setResult(null); }}
           style={{ width: '100%', padding: 8, marginBottom: 16, fontSize: 14, color: '#374151' }}
         />
       )}
@@ -185,7 +186,7 @@ export default function PredictPage() {
       <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Surface</label>
       <select
         value={surface}
-        onChange={e => setSurface(e.target.value)}
+        onChange={e => { setSurface(e.target.value); setResult(null); }}
         style={{ width: '100%', padding: 8, marginBottom: 24, fontSize: 14 }}
         className="w-full border rounded px-3 py-2 mb-4 text-sm text-gray-900"
       >
@@ -243,7 +244,7 @@ export default function PredictPage() {
                 {/* Player A */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 14 }}>
-                    <span style={{ color: '#111827', fontWeight: 500 }}>{playerA}</span>
+                    <span style={{ color: '#111827', fontWeight: 500 }}>{result.player_a}</span>
                     <span style={{ color: '#111827', fontWeight: 700 }}>{pct(result.prob_a)}</span>
                   </div>
                   {result.last_played_a && (
@@ -259,7 +260,7 @@ export default function PredictPage() {
                 {/* Player B */}
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 14 }}>
-                    <span style={{ color: '#111827', fontWeight: 500 }}>{playerB}</span>
+                    <span style={{ color: '#111827', fontWeight: 500 }}>{result.player_b}</span>
                     <span style={{ color: '#111827', fontWeight: 700 }}>{pct(result.prob_b)}</span>
                   </div>
                   {result.last_played_b && (
