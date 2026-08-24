@@ -1,31 +1,34 @@
-
 # Tennis Match Predictor
 
-A machine learning pipeline that predicts ATP tennis match outcomes, initially built for Wimbledon. Built with XGBoost trained on historical match data, featuring a FastAPI backend and Next.js frontend for live match predictions.
+A machine learning pipeline that predicts ATP tennis match outcomes, including **cross-era match-ups**, like peak Federer vs. current Sinner. Built with XGBoost trained on historical match data, featuring a FastAPI backend and this Next.js frontend for live match predictions and career Elo exploration.
 
-The model achieves **70.2% accuracy** on general 2026 ATP data and **63.2% accuracy on Wimbledon 2026** — comparable to IBM SlamTracker's 63.7% on the same tournament.
+**Live app:** https://tennis-versus.vercel.app/
+
+**Backend repo:** https://github.com/carminvuong/tennis_backend
 
 ---
 
 ## How it works
 
-A user selects two players and a surface. The app looks up each player's pre-computed stats (Elo rating, recent form, surface win rate, break point pressure) from a lookup table generated from data, builds a feature vector, and runs it through a trained XGBoost model to produce a win probability for each player.
+A user selects two players, an optional date for each, and a surface. The backend resolves each player's stats — Elo, recent form, break-point pressure — as of the requested date (or their current stats, if no date is given) from a point-in-time snapshot table in Postgres, builds a feature vector, and runs it through a trained XGBoost model to produce a win probability for each player.
 
-https://tennis-versus.vercel.app/
+A separate page lets you explore a player's Elo rating over their whole tracked career (overall and per surface) with each series' peak highlighted, and filters to isolate just one surface at a time.
 
+## Pages
+
+- **`/`** — landing page, links to the two tools below.
+- **`/predict`** — pick two players (and optionally a date for each) and a surface, get a win probability.
+- **`/elo`** — pick a player, see their career Elo trajectory (overall/Hard/Clay/Grass), with peaks marked.
 
 ## ML
 
 ### Jupyter Notebooks
 
-I have documented my whole process via multiple Jupyter Notebooks. From feature engineering to training the model, it is all written down inside ```backend/model/```.
+The original feature engineering and model-selection process is documented via Jupyter notebooks in `tennis_backend/model/notebooks/` — data exploration, restructuring, the move from logistic regression to XGBoost, and adding Elo as a feature. That exploration produced the current model; training itself has since moved to a reproducible `.py` script (`train_model.py`, in the backend repo) so retraining doesn't require Jupyter.
 
+### Wimbledon 2026 evaluation
 
-## Wimbledon 2026 evaluation
-
-The model was evaluated on Wimbledon 2026 specifically by looking up pre-match stats for each player from the lookup table and comparing predictions against actual results.
-
-IBM SlamTracker accuracy was obtained by me manually going through the Wimbledon website and looking at all the pre-match predictions...
+An earlier version of the model was evaluated on Wimbledon 2026 by looking up pre-match stats for each player and comparing predictions against actual results, benchmarked against IBM SlamTracker's own pre-match predictions (gathered manually from the Wimbledon website) and a naive "higher-ranked player wins" baseline:
 
 | Model | Wimbledon 2026 Accuracy |
 |---|---|
@@ -33,24 +36,18 @@ IBM SlamTracker accuracy was obtained by me manually going through the Wimbledon
 | IBM SlamTracker | 63.7% |
 | Naive baseline | 60.2% |
 
-Both models performed below their typical accuracy due to a high number of upsets in the 2026 Wimbledon tournament, probably because of the unpredictability of the grassy surface.
+Both models kind of underperformed, most likely due to a high number of upsets in the 2026 tournament.
 
 ---
 
 ## Web app
 
-### Backend — FastAPI
+### Backend — FastAPI + Postgres
 
-Deployed using Railway, can be found on [this GitHub repo](https://github.com/carminvuong/tennis_backend).
-
-Endpoints:
-
-**`GET /all_players`** — returns a sorted list of all player names in the lookup table, used to populate the frontend dropdowns.
-
-**`POST /predict`** — accepts `player_a`, `player_b`, and `surface`, looks up each player's stats, builds the feature vector, and returns a win probability using the model.
+Deployed on Render, backed by a Supabase Postgres database (`player_ratings_history` — one row per player per tracked match, 1991–present). Full endpoint docs: see the [backend README](https://github.com/carminvuong/tennis_backend).
 
 ```bash
-cd backend
+cd tennis_backend
 pip install -r requirements.txt
 uvicorn main:app --reload
 # runs on http://localhost:8000
@@ -59,20 +56,20 @@ uvicorn main:app --reload
 
 ### Frontend — Next.js
 
-Simple prediction interface with dropdowns for both players and surface selection, displaying win probabilities as percentage bars.
-
 ```bash
-cd frontend
-npm install # install requirements
+cd tennis_versus
+npm install
 npm run dev
 # runs on http://localhost:3000
 ```
+
+Set `NEXT_PUBLIC_API_URL` in `.env.local` to point at the backend (defaults to `http://localhost:8000`).
 
 ---
 
 ## Data source
 
-[TennisMyLife dataset](https://stats.tennismylife.org/tennis-match-database) — historical ATP match results dating back to 1968 including player rankings, serve statistics, and tournament metadata.
+[TennisMyLife dataset](https://stats.tennismylife.org/tennis-match-database) — historical ATP match results dating back to 1968, including player rankings, serve statistics, and tournament metadata. This app uses matches from 1991 onward, since shot-level stats (aces, double faults, break points) aren't reliably recorded before then.
 
 ---
 
@@ -82,8 +79,7 @@ npm run dev
 |---|---|
 | Data processing | Python, pandas, numpy |
 | Machine learning | XGBoost, scikit-learn |
-| Notebook pipeline | Jupyter |
-| Intermediate storage | Parquet |
-| Backend API | FastAPI, uvicorn |
-| Frontend | Next.js, TypeScript, Tailwind CSS |
-| Model serialization | pickle |
+| Database | Postgres (Supabase) |
+| Backend API | FastAPI, uvicorn, deployed on Render |
+| Frontend | Next.js 16, React 19, TypeScript |
+| Fonts | Geist Sans (UI), Playfair Display (headings) |
