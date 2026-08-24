@@ -12,10 +12,17 @@ export default function Home() {
           Pick two ATP players (even from different eras!), a surface, and get a win probability prediction - 
           powered by an XGBoost model trained on Elo, form, break-point stats, and more.
         </p>
+
         <p style={{ color: '#666', marginBottom: 32 }}>
           This uses <a href="https://stats.tennismylife.org/tennis-match-database">TennisMyLife&apos;s database</a>,
           with matches dating back to 1969. However, this app will only account for matches from 1991 to current,
           simply because of more consistent data.
+        </p>
+
+        <p style={{ color: '#666', marginBottom: 32 }}>
+          For ideas on which players to match up against each other, 
+          you can also view a player's Elo trajectory throughout their career. 
+          Very fun to look at, IMO!
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link
