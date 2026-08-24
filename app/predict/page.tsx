@@ -22,6 +22,8 @@ type CareerRange = {
 
 export default function PredictPage() {
   const [players, setPlayers]   = useState<string[]>([]);
+  const [playersLoading, setPlayersLoading] = useState(true);
+  const [playersError, setPlayersError]     = useState('');
   const [playerA, setPlayerA]   = useState('');
   const [playerB, setPlayerB]   = useState('');
   const [dateA,   setDateA]     = useState('');
@@ -49,8 +51,16 @@ export default function PredictPage() {
   // Load player list on mount
   useEffect(() => {
     fetch(`${BACKEND_API}/all_players`)
-      .then(res => res.json())
-      .then(data => setPlayers(data.players));
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => setPlayers(data.players))
+      .catch(() => setPlayersError(
+        'Could not load the player list. The backend may still be starting up ' +
+        '(can take up to a minute on first load) - try refreshing in a moment.'
+      ))
+      .finally(() => setPlayersLoading(false));
   }, []);
 
   // Bound a player's date picker to their tracked career range once a full, valid
@@ -141,15 +151,25 @@ export default function PredictPage() {
         {suggestionsFor(playerB).map(p => <option key={p} value={p} />)}
       </datalist>
 
+      {playersLoading && (
+        <p style={{ color: '#9ca3af', fontSize: 13, marginBottom: 12 }}>
+          Loading players - the backend is waking up...
+        </p>
+      )}
+      {playersError && (
+        <p style={{ color: 'red', fontSize: 13, marginBottom: 12 }}>{playersError}</p>
+      )}
+
       {/* Player A */}
       <label style={{ display: 'block', marginBottom: 4, fontWeight: 500 }}>Player A</label>
       <input
         list="players-list-a"
         value={playerA}
         onChange={e => selectPlayer(e.target.value, setPlayerA, setDateA, setRangeA)}
-        placeholder="Type a player name..."
+        placeholder={playersLoading ? 'Loading players...' : 'Type a player name...'}
+        disabled={playersLoading}
         autoComplete="off"
-        style={{ width: '100%', padding: 8, marginBottom: 8, fontSize: 14 }}
+        style={{ width: '100%', padding: 8, marginBottom: 8, fontSize: 14, opacity: playersLoading ? 0.6 : 1 }}
         className="w-full border rounded px-3 py-2 mb-4 text-sm text-gray-900"
       />
       {rangeA && (
@@ -169,9 +189,10 @@ export default function PredictPage() {
         list="players-list-b"
         value={playerB}
         onChange={e => selectPlayer(e.target.value, setPlayerB, setDateB, setRangeB)}
-        placeholder="Type a player name..."
+        placeholder={playersLoading ? 'Loading players...' : 'Type a player name...'}
+        disabled={playersLoading}
         autoComplete="off"
-        style={{ width: '100%', padding: 8, marginBottom: 8, fontSize: 14 }}
+        style={{ width: '100%', padding: 8, marginBottom: 8, fontSize: 14, opacity: playersLoading ? 0.6 : 1 }}
         className="w-full border rounded px-3 py-2 mb-4 text-sm text-gray-900"
       />
       {rangeB && (
