@@ -128,14 +128,14 @@ export default function EloPage() {
         </p>
 
         <p style={{ fontSize: 13 ,color: '#727272' }}>
-          <strong>Note: </strong><a href='https://en.wikipedia.org/wiki/Elo_rating_system'>Elo</a> is a relative skill rating — it doesn't measure how well someone plays in an absolute sense.
-          It measures how good they are compared to everyone else at that time, 
-          based purely on who they've beaten and lost to. It was originally designed for chess, but I'm borrowing it to use for tennis...
+          <strong>Note: </strong><a href='https://en.wikipedia.org/wiki/Elo_rating_system'>Elo</a>{' '}is a relative skill rating — it doesn&apos;t measure how well someone plays in an absolute sense.
+          It measures how good they are compared to everyone else at that time,
+          based purely on who they&apos;ve beaten and lost to. It was originally designed for chess, but I&apos;m borrowing it to use for tennis...
         </p>
 
         <p style={{ fontSize: 13 ,color: '#727272' }}>
-          A higher Elo rating doesn't mean one player is better than the other player.
-          Rather, it's more like one player was more dominant during that time, than the other.
+          A higher Elo rating doesn&apos;t mean one player is better than the other player.
+          Rather, it&apos;s more like one player was more dominant during that time, than the other.
         </p>
 
         <datalist id="players-list">

@@ -21,7 +21,7 @@ export default function Home() {
 
         <p style={{ color: '#666', marginBottom: 32 }}>
           For ideas on which players to match up against each other, 
-          you can also view a player's Elo trajectory throughout their career. 
+          you can also view a player&apos;s Elo trajectory throughout their career.
           Very fun to look at, IMO!
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -73,8 +73,12 @@ export default function Home() {
 
           This is just something fun I wanted to try and was curious about.
         </p>
-        
+
       </div>
+
+      <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: 12, marginTop: 16 }}>
+        Built by Carmin Vuong &middot; Updated 08/24/2026
+      </p>
 
     </main>
   );
