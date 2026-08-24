@@ -131,9 +131,14 @@ export default function PredictPage() {
 
   return (
     <main style={{ maxWidth: 480, margin: '60px auto', padding: '0 20px' }}>
-      <Link href="/" style={{ display: 'inline-block', marginBottom: 16, color: '#0d8137', fontSize: 14, textDecoration: 'none' }}>
-        &larr; Home
-      </Link>
+      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+        <Link href="/" style={{ color: '#0d8137', fontSize: 14, textDecoration: 'none' }}>
+          &larr; Home
+        </Link>
+        <Link href="/elo" style={{ color: '#0d8137', fontSize: 14, textDecoration: 'none' }}>
+          View career Elo &rarr;
+        </Link>
+      </div>
       <div style={{ backgroundColor: 'white', borderRadius: 5, boxShadow: '0 4px 16px rgba(0,0,0,0.1)', border: '1px solid grey', padding: 32, width: '100%', maxWidth: 480 }}>
       
       

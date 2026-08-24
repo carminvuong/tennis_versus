@@ -13,26 +13,44 @@ export default function Home() {
           powered by an XGBoost model trained on Elo, form, break-point stats, and more.
         </p>
         <p style={{ color: '#666', marginBottom: 32 }}>
-          This uses <a href="https://stats.tennismylife.org/tennis-match-database">TennisMyLife's database</a>, 
+          This uses <a href="https://stats.tennismylife.org/tennis-match-database">TennisMyLife&apos;s database</a>,
           with matches dating back to 1969. However, this app will only account for matches from 1991 to current,
           simply because of more consistent data.
         </p>
-        <Link
-          href="/predict"
-          className="springy-button"
-          style={{
-            display: 'inline-block',
-            padding: '12px 28px',
-            fontSize: 16,
-            background: '#0d8137',
-            color: 'white',
-            borderRadius: 6,
-            textDecoration: 'none',
-            boxShadow: '0 4px 12px rgba(22,163,74,0.4)',
-          }}
-        >
-          Make a prediction
-        </Link>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link
+            href="/predict"
+            className="springy-button"
+            style={{
+              display: 'inline-block',
+              padding: '12px 28px',
+              fontSize: 16,
+              background: '#0d8137',
+              color: 'white',
+              borderRadius: 6,
+              textDecoration: 'none',
+              boxShadow: '0 4px 12px rgba(22,163,74,0.4)',
+            }}
+          >
+            Make a prediction
+          </Link>
+          <Link
+            href="/elo"
+            className="springy-button"
+            style={{
+              display: 'inline-block',
+              padding: '12px 28px',
+              fontSize: 16,
+              background: 'white',
+              color: '#0d8137',
+              border: '1px solid #0d8137',
+              borderRadius: 6,
+              textDecoration: 'none',
+            }}
+          >
+            View career Elo
+          </Link>
+        </div>
       </div>
 
       <div style={{ backgroundColor: 'white', marginTop: '20px', borderRadius: 5, boxShadow: '0 4px 16px rgba(0,0,0,0.1)', border: '1px solid grey', padding: 40 }}>
