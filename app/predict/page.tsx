@@ -87,23 +87,32 @@ export default function PredictPage() {
     setResult(null);
 
     try {
-      const res = await fetch(`${BACKEND_API}/predict`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          player_a: playerA,
-          ...(dateA ? { date_a: dateA } : {}),
-          player_b: playerB,
-          ...(dateB ? { date_b: dateB } : {}),
-          surface:  surface,
-        }),
-      });
+      let res;
+      try {
+        res = await fetch(`${BACKEND_API}/predict`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            player_a: playerA,
+            ...(dateA ? { date_a: dateA } : {}),
+            player_b: playerB,
+            ...(dateB ? { date_b: dateB } : {}),
+            surface:  surface,
+          }),
+        });
+      } catch {
+        throw new Error('Could not reach the server. Please check your connection and try again.');
+      }
 
-      if (!res.ok) throw new Error('Prediction failed');
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.detail || `Prediction failed (HTTP ${res.status})`);
+      }
+
       const data = await res.json();
       setResult(data);
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -111,14 +120,14 @@ export default function PredictPage() {
 
 
   return (
-    <main style={{ maxWidth: 480, margin: '60px auto', fontFamily: 'sans-serif', padding: '0 20px' }}>
+    <main style={{ maxWidth: 480, margin: '60px auto', padding: '0 20px' }}>
       <Link href="/" style={{ display: 'inline-block', marginBottom: 16, color: '#0d8137', fontSize: 14, textDecoration: 'none' }}>
         &larr; Home
       </Link>
       <div style={{ backgroundColor: 'white', borderRadius: 5, boxShadow: '0 4px 16px rgba(0,0,0,0.1)', border: '1px solid grey', padding: 32, width: '100%', maxWidth: 480 }}>
       
       
-      <h1 style={{ fontSize: 24, marginBottom: 8 }}>Cross-era Tennis Match Predictor</h1>
+      <h1 className="font-display" style={{ fontSize: 26, marginBottom: 8 }}>Cross-era Tennis Match Predictor</h1>
       
       
       <p style={{ color: '#666'}}>
@@ -229,7 +238,7 @@ export default function PredictPage() {
 
       {result && (
         <div style={{ marginTop: 32, padding: 20, backgroundColor: '#f9fafb', borderRadius: 8, border: '1px solid #e5e7eb' }}>
-          <h2 style={{ fontWeight: 600, fontSize: 18, marginBottom: 16, color: '#111827' }}>
+          <h2 className="font-display" style={{ fontWeight: 600, fontSize: 20, marginBottom: 16, color: '#111827' }}>
             Prediction — {surface}
           </h2>
 

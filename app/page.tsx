@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main style={{ maxWidth: 480, margin: '80px auto', fontFamily: 'sans-serif', padding: '0 20px', textAlign: 'center' }}>
+    <main style={{ maxWidth: 480, margin: '80px auto', padding: '0 20px', textAlign: 'center' }}>
       <div style={{ backgroundColor: 'white', borderRadius: 5, boxShadow: '0 4px 16px rgba(0,0,0,0.1)', border: '1px solid grey', padding: 40 }}>
         
 
-        <h1 style={{ fontSize: 28, marginBottom: 12 }}>Tennis Versus</h1>
+        <h1 className="font-display" style={{ fontSize: 32, marginBottom: 12 }}>Tennis Versus</h1>
         
         <p style={{ color: '#666', marginBottom: 32 }}>
           Pick two ATP players (even from different eras!), a surface, and get a win probability prediction - 
