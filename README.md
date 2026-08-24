@@ -1,4 +1,4 @@
-# Tennis Match Predictor
+# Tennis Versus
 
 A machine learning pipeline that predicts ATP tennis match outcomes, including **cross-era match-ups**, like peak Federer vs. current Sinner. Built with XGBoost trained on historical match data, featuring a FastAPI backend and this Next.js frontend for live match predictions and career Elo exploration.
 
